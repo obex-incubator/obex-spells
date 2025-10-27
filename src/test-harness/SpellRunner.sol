@@ -5,8 +5,7 @@ import { Test }      from "forge-std/Test.sol";
 import { StdChains } from "forge-std/StdChains.sol";
 import { console }   from "forge-std/console.sol";
 
-import { Ethereum }  from 'grove-address-registry/Ethereum.sol';
-import { Avalanche } from 'grove-address-registry/Avalanche.sol';
+import { Ethereum }  from 'obex-address-registry/Ethereum.sol';
 // import { Arbitrum } from 'grove-address-registry/Arbitrum.sol';
 // import { Base }     from 'grove-address-registry/Base.sol';
 // import { Gnosis }   from 'grove-address-registry/Gnosis.sol';
@@ -24,7 +23,7 @@ import { Bridge, BridgeType }    from "xchain-helpers/testing/Bridge.sol";
 import { RecordedLogs }          from "xchain-helpers/testing/utils/RecordedLogs.sol";
 
 import { ChainIdUtils, ChainId } from "../libraries/ChainId.sol";
-import { GrovePayloadEthereum }  from "../libraries/GrovePayloadEthereum.sol";
+import { ObexPayloadEthereum }  from "../libraries/ObexPayloadEthereum.sol";
 
 abstract contract SpellRunner is Test {
     using DomainHelpers for Domain;
@@ -133,11 +132,29 @@ abstract contract SpellRunner is Test {
         // chainData[ChainIdUtils.Base()].domain        = getChain("base").createFork(blocks[1]);
         // chainData[ChainIdUtils.ArbitrumOne()].domain = getChain("arbitrum_one").createFork(blocks[2]);
         // chainData[ChainIdUtils.Optimism()].domain    = getChain("optimism").createFork(blocks[3]);
-        chainData[ChainIdUtils.Avalanche()].domain   = getChain("avalanche").createFork(blocks[4]);
+        // chainData[ChainIdUtils.Avalanche()].domain   = getChain("avalanche").createFork(blocks[4]);
 
         // CREATE FORKS WITH STATICALLY CHOSEN BLOCKS HERE
         // chainData[ChainIdUtils.Gnosis()].domain      = getChain("gnosis_chain").createFork(39404891);  // Gnosis block lookup is not supported by Alchemy
         // chainData[ChainIdUtils.Unichain()].domain    = getChain("unichain").createFork(17517398);
+    }
+
+    /// @dev Simplified setup for mainnet-only tests with a specific block number
+    function setupMainnetDomain(uint256 mainnetForkBlock) internal {
+        // Create fork at specific block
+        chainData[ChainIdUtils.Ethereum()].domain = getChain("mainnet").createFork(mainnetForkBlock);
+        chainData[ChainIdUtils.Ethereum()].domain.selectFork();
+
+        // Set up executor and controller for mainnet
+        chainData[ChainIdUtils.Ethereum()].executor       = IExecutor(Ethereum.OBEX_PROXY);
+        chainData[ChainIdUtils.Ethereum()].prevController = Ethereum.ALM_CONTROLLER;
+        chainData[ChainIdUtils.Ethereum()].newController  = Ethereum.ALM_CONTROLLER;
+
+        // Register mainnet chain
+        allChains.push(ChainIdUtils.Ethereum());
+
+        // Deploy payloads
+        deployPayloads();
     }
 
     /// @dev to be called in setUp
@@ -147,14 +164,14 @@ abstract contract SpellRunner is Test {
         // We default to Ethereum domain
         chainData[ChainIdUtils.Ethereum()].domain.selectFork();
 
-        chainData[ChainIdUtils.Ethereum()].executor       = IExecutor(Ethereum.GROVE_PROXY);
+        chainData[ChainIdUtils.Ethereum()].executor       = IExecutor(Ethereum.OBEX_PROXY);
         chainData[ChainIdUtils.Ethereum()].prevController = Ethereum.ALM_CONTROLLER;
         chainData[ChainIdUtils.Ethereum()].newController  = Ethereum.ALM_CONTROLLER;
 
         // DEFINE FOREIGN EXECUTORS HERE
-        chainData[ChainIdUtils.Avalanche()].executor       = IExecutor(Avalanche.GROVE_EXECUTOR);
-        chainData[ChainIdUtils.Avalanche()].prevController = Avalanche.ALM_CONTROLLER;
-        chainData[ChainIdUtils.Avalanche()].newController  = Avalanche.ALM_CONTROLLER;
+        // chainData[ChainIdUtils.Avalanche()].executor       = IExecutor(Avalanche.OBEX_EXECUTOR);
+        // chainData[ChainIdUtils.Avalanche()].prevController = Avalanche.ALM_CONTROLLER;
+        // chainData[ChainIdUtils.Avalanche()].newController  = Avalanche.ALM_CONTROLLER;
 
         // chainData[ChainIdUtils.Base()].executor        = IExecutor(Base.GROVE_EXECUTOR);
         // chainData[ChainIdUtils.Gnosis()].executor      = IExecutor(Gnosis.GROVE_EXECUTOR);
@@ -229,16 +246,16 @@ abstract contract SpellRunner is Test {
         // );
 
         // Avalanche
-        chainData[ChainIdUtils.Avalanche()].bridges.push(
-            CCTPBridgeTesting.createCircleBridge(
-                chainData[ChainIdUtils.Ethereum()].domain,
-                chainData[ChainIdUtils.Avalanche()].domain
-            )
-        );
+        // chainData[ChainIdUtils.Avalanche()].bridges.push(
+        //     CCTPBridgeTesting.createCircleBridge(
+        //         chainData[ChainIdUtils.Ethereum()].domain,
+        //         chainData[ChainIdUtils.Avalanche()].domain
+        //     )
+        // );
 
         // REGISTER CHAINS HERE
         allChains.push(ChainIdUtils.Ethereum());
-        allChains.push(ChainIdUtils.Avalanche());
+        // allChains.push(ChainIdUtils.Avalanche());
         // allChains.push(ChainIdUtils.Base());
         // allChains.push(ChainIdUtils.Gnosis());
         // allChains.push(ChainIdUtils.ArbitrumOne());
@@ -247,7 +264,7 @@ abstract contract SpellRunner is Test {
     }
 
     function spellIdentifier(ChainId chainId) private view returns(string memory) {
-        string memory slug       = string(abi.encodePacked("Grove", chainId.toDomainString(), "_", id));
+        string memory slug       = string(abi.encodePacked("Obex", chainId.toDomainString(), "_", id));
         string memory identifier = string(abi.encodePacked(slug, ".sol:", slug));
         return identifier;
     }
@@ -344,9 +361,10 @@ abstract contract SpellRunner is Test {
 
         // RETURN PAYLOAD ADDRESSES FROM THE MAINNET SPELL HERE
 
-        GrovePayloadEthereum spell = GrovePayloadEthereum(chainData[ChainIdUtils.Ethereum()].payload);
+        ObexPayloadEthereum spell = ObexPayloadEthereum(chainData[ChainIdUtils.Ethereum()].payload);
         if (chainId == ChainIdUtils.Avalanche()) {
-            return spell.PAYLOAD_AVALANCHE();
+            revert("Unsupported chainId");
+            // return spell.PAYLOAD_AVALANCHE();
         // } else if (chainId == ChainIdUtils.Base()) {
         //     return spell.PAYLOAD_BASE();
         // } else if (chainId == ChainIdUtils.Gnosis()) {

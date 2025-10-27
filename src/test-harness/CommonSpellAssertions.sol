@@ -3,15 +3,15 @@ pragma solidity ^0.8.0;
 
 import { IERC20 } from "forge-std/interfaces/IERC20.sol";
 
-import { Ethereum } from "lib/grove-address-registry/src/Ethereum.sol";
+import { Ethereum } from "lib/obex-address-registry/src/Ethereum.sol";
 
 import { Executor } from "grove-gov-relay/src/Executor.sol";
 
-import { IALMProxy }   from "grove-alm-controller/src/interfaces/IALMProxy.sol";
-import { IRateLimits } from "grove-alm-controller/src/interfaces/IRateLimits.sol";
+import { IALMProxy }   from "obex-alm-controller/src/interfaces/IALMProxy.sol";
+import { IRateLimits } from "obex-alm-controller/src/interfaces/IRateLimits.sol";
 
-import { ForeignController } from "grove-alm-controller/src/ForeignController.sol";
-import { MainnetController } from "grove-alm-controller/src/MainnetController.sol";
+import { ForeignController } from "obex-alm-controller/src/ForeignController.sol";
+import { MainnetController } from "obex-alm-controller/src/MainnetController.sol";
 
 import { CCTPReceiver } from "lib/xchain-helpers/src/receivers/CCTPReceiver.sol";
 
@@ -241,8 +241,8 @@ abstract contract CommonSpellAssertions is SpellRunner {
         // Source domain id has to be always Ethereum Mainnet id
         assertEq(receiver.sourceDomainId(), 0, "incorrect-source-domain-id");
 
-        // Source authority has to be the Ethereum Mainnet Grove Proxy
-        assertEq(receiver.sourceAuthority(), bytes32(uint256(uint160(Ethereum.GROVE_PROXY))), "incorrect-source-authority");
+        // Source authority has to be the Ethereum Mainnet Obex Proxy
+        assertEq(receiver.sourceAuthority(), bytes32(uint256(uint160(Ethereum.OBEX_PROXY))), "incorrect-source-authority");
 
         // Target has to be the executor
         assertEq(receiver.target(), _executor, "incorrect-target");
