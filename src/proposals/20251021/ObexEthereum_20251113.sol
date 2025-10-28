@@ -41,8 +41,8 @@ contract ObexEthereum_20251113 is ObexPayloadEthereum {
                 rateLimits : Ethereum.ALM_RATE_LIMITS
             }),
             configAddresses: MainnetControllerInit.ConfigAddressParams({
-                freezer       : Ethereum.ALM_FREEZER, //TODO: Update with Obex
-                relayers      : relayers, //TODO: Update with Obex
+                freezer       : Ethereum.ALM_FREEZER, 
+                relayers      : relayers, 
                 oldController : address(0)
             }),
             checkAddresses: MainnetControllerInit.CheckAddressParams({
