@@ -18,7 +18,7 @@ import { AllocatorVault }  from 'dss-allocator/src/AllocatorVault.sol';
 
 import { ObexLiquidityLayerContext } from "../../test-harness/ObexLiquidityLayerTests.sol";
 
-import { ObexEthereum_20251021 } from "./ObexEthereum_20251021.sol";
+import { ObexEthereum_20251113 as ObexSpell } from "./ObexEthereum_20251113.sol";
 
 interface IInvestmentManager {
     function fulfillCancelDepositRequest(
@@ -95,9 +95,9 @@ interface AutoLineLike {
     function exec(bytes32) external;
 }
 
-contract ObexEthereum_20251021Test is ObexTestBase {
+contract ObexEthereum_20251113Test is ObexTestBase {
 
-    ObexEthereum_20251021 internal OBEX_SPELL;
+    ObexSpell internal OBEX_SPELL;
     address internal DEPLOYER;
 
     address internal constant MCD_IAM_AUTO_LINE = 0xC7Bdd1F2B16447dcf3dE045C4a039A60EC2f0ba3;
@@ -114,13 +114,13 @@ contract ObexEthereum_20251021Test is ObexTestBase {
 
 
     constructor() {
-        id = "20251021";
+        id = "20251113";
     }
 
     function _setupAddresses() internal virtual {
         DEPLOYER = makeAddr("DEPLOYER");
         vm.prank(DEPLOYER);
-        OBEX_SPELL = new ObexEthereum_20251021();
+        OBEX_SPELL = new ObexSpell();
     }
 
     function setUp() public {

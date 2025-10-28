@@ -8,12 +8,12 @@ import { MainnetControllerInit, ControllerInstance } from "lib/obex-alm-controll
 import { MainnetController } from "lib/obex-alm-controller/src/MainnetController.sol";
 
 /**
- * @title    21, 2025 Obex Ethereum Proposal
+ * @title    November 13, 2025 Obex Ethereum Proposal
  * @notice Activate Obex Liquidity Layer - initiate ALM system, set rate limits, onboard SyrupUSDC
  * @author Obex Labs
- //TODO: Update forum posts and vote links
+ //TODO: Update forum post and vote link
  */
-contract ObexEthereum_20251021 is ObexPayloadEthereum {
+contract ObexEthereum_20251113 is ObexPayloadEthereum {
 
     address public constant SYRUP_USDC_VAULT  = 0x80ac24aA929eaF5013f6436cdA2a7ba190f5Cc0b;
     address public constant OZONE_OEA_RELAYER = 0x2b1D60B11B7015fB83361a219BE01B7564436054;
