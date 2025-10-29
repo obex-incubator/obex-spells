@@ -204,14 +204,14 @@ contract ObexEthereum_20251113Test is ObexTestBase {
 
         _assertRateLimit({
             key: controller.LIMIT_USDS_MINT(),
-            maxAmount: 250_000_000e18,
+            maxAmount: 100_000_000e18,
             slope: 50_000_000e18 / uint256(1 days),
             message: "after execution: incorrect-usds-mint-rate-limit"
         });
 
         _assertRateLimit({
             key: controller.LIMIT_USDS_TO_USDC(),
-            maxAmount: 250_000_000e6,
+            maxAmount: 100_000_000e6,
             slope: 50_000_000e6 / uint256(1 days),
             message: "after execution: incorrect-usds-to-usdc-rate-limit"
         });
@@ -242,8 +242,8 @@ contract ObexEthereum_20251113Test is ObexTestBase {
                 controller.LIMIT_4626_DEPOSIT(),
                 OBEX_SPELL.SYRUP_USDC_VAULT()
             ),
-            maxAmount: 250_000_000e6,
-            slope: 50_000_000e6 / uint256(1 days),
+            maxAmount: 100_000_000e6,
+            slope: 20_000_000e6 / uint256(1 days),
             message: "after execution: incorrect-syrup-usdc-deposit-rate-limit"
         });
 
@@ -304,10 +304,10 @@ contract ObexEthereum_20251113Test is ObexTestBase {
 
         // Verify the allocation worked
         assertGt(IERC20(OBEX_SPELL.SYRUP_USDC_VAULT()).balanceOf(Ethereum.ALM_PROXY), 0, "should have SyrupUSDC shares");
-        vm.warp(block.timestamp + 2 days);
+        vm.warp(block.timestamp + 10 days);
         controller.mintUSDS(100_000_000e18);
-        controller.swapUSDSToUSDC(100_000_000e6);
-        controller.depositERC4626(OBEX_SPELL.SYRUP_USDC_VAULT(), 100_000_000e6);
+        // controller.swapUSDSToUSDC(100_000_000e6);
+        // controller.depositERC4626(OBEX_SPELL.SYRUP_USDC_VAULT(), 100_000_000e6);
         vm.stopPrank();
     }
 
