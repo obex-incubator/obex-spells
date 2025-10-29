@@ -1,26 +1,20 @@
 // SPDX-License-Identifier: AGPL-3.0
 pragma solidity ^0.8.0;
 
-import { RateLimitHelpers } from "grove-alm-controller/src/RateLimitHelpers.sol";
+import { RateLimitHelpers } from "obex-alm-controller/src/RateLimitHelpers.sol";
 
-import { IRateLimits } from "grove-alm-controller/src/interfaces/IRateLimits.sol";
+import { IRateLimits } from "obex-alm-controller/src/interfaces/IRateLimits.sol";
 
 /**
  * @notice Helper functions for Grove Liquidity Layer
  */
 library ObexLiquidityLayerHelpers {
 
-    // This is the same on all chains
-    address private constant MORPHO = 0xBBBBBbbBBb9cC5e90e3b3Af64bdAF62C37EEFFCb;
-
-    bytes32 public constant LIMIT_4626_DEPOSIT        = keccak256("LIMIT_4626_DEPOSIT");
-    bytes32 public constant LIMIT_4626_WITHDRAW       = keccak256("LIMIT_4626_WITHDRAW");
-    bytes32 public constant LIMIT_7540_DEPOSIT        = keccak256("LIMIT_7540_DEPOSIT");
-    bytes32 public constant LIMIT_7540_REDEEM         = keccak256("LIMIT_7540_REDEEM");
-    bytes32 public constant LIMIT_USDS_MINT           = keccak256("LIMIT_USDS_MINT");
-    bytes32 public constant LIMIT_USDS_TO_USDC        = keccak256("LIMIT_USDS_TO_USDC");
-    bytes32 public constant LIMIT_CENTRIFUGE_TRANSFER = keccak256("LIMIT_CENTRIFUGE_TRANSFER");
-    bytes32 public constant LIMIT_MAPLE_REDEEM   = keccak256("LIMIT_MAPLE_REDEEM");
+    bytes32 public constant LIMIT_4626_DEPOSIT  = keccak256("LIMIT_4626_DEPOSIT");
+    bytes32 public constant LIMIT_4626_WITHDRAW = keccak256("LIMIT_4626_WITHDRAW");
+    bytes32 public constant LIMIT_USDS_MINT     = keccak256("LIMIT_USDS_MINT");
+    bytes32 public constant LIMIT_USDS_TO_USDC  = keccak256("LIMIT_USDS_TO_USDC");
+    bytes32 public constant LIMIT_MAPLE_REDEEM  = keccak256("LIMIT_MAPLE_REDEEM");
 
     /**
      * @notice Onboard an ERC4626 vault
@@ -48,29 +42,9 @@ library ObexLiquidityLayerHelpers {
     }
 
     /**
-     * @notice Onboard an ERC7540 vault
-     * @dev This will set the deposit to the given numbers with
-     *      the redeem limit set to unlimited.
+     * @notice Onboard the SyrupUSDC vault
+     * @dev This will set the deposit and redeem limits to the given numbers.
      */
-    function onboardERC7540Vault(
-        address rateLimits,
-        address vault,
-        uint256 depositMax,
-        uint256 depositSlope
-    ) internal {
-        bytes32 depositKey = RateLimitHelpers.makeAssetKey(
-            LIMIT_7540_DEPOSIT,
-            vault
-        );
-        bytes32 redeemKey = RateLimitHelpers.makeAssetKey(
-            LIMIT_7540_REDEEM,
-            vault
-        );
-
-        IRateLimits(rateLimits).setRateLimitData(depositKey, depositMax, depositSlope);
-        IRateLimits(rateLimits).setUnlimitedRateLimitData(redeemKey);
-    }
-
     function onboardSyrupUSDC(address rateLimits,address syrupUSDCVault,uint256 depositMax,uint256 depositSlope,uint256 redeemMax,uint256 redeemSlope) internal {
         bytes32 depositKey = RateLimitHelpers.makeAssetKey(
             LIMIT_4626_DEPOSIT,
@@ -81,49 +55,25 @@ library ObexLiquidityLayerHelpers {
         IRateLimits(rateLimits).setRateLimitData(withdrawKey, redeemMax, redeemSlope);
     }
 
-
-    function offboardERC7540Vault(
-        address rateLimits,
-        address vault
-    ) internal {
-        bytes32 depositKey = RateLimitHelpers.makeAssetKey(
-            LIMIT_7540_DEPOSIT,
-            vault
-        );
-        bytes32 redeemKey = RateLimitHelpers.makeAssetKey(
-            LIMIT_7540_REDEEM,
-            vault
-        );
-
-        IRateLimits(rateLimits).setRateLimitData(depositKey, 0, 0);
-        IRateLimits(rateLimits).setRateLimitData(redeemKey,  0, 0);
-    }
-
     function setUSDSMintRateLimit(
         address rateLimits,
         uint256 maxAmount,
         uint256 slope
     ) internal {
-        // bytes32 mintKey = RateLimitHelpers.makeAssetKey(
-        //     LIMIT_USDS_MINT,
-        //     MORPHO
-        // );
-
         bytes32 mintKey = LIMIT_USDS_MINT;
 
         IRateLimits(rateLimits).setRateLimitData(mintKey, maxAmount, slope);
     }
 
+    /**
+     * @notice Set the USDSToUSDC rate limit
+     * @dev This will set the USDSToUSDC rate limit to the given numbers.
+     */
     function setUSDSToUSDCRateLimit(
         address rateLimits,
         uint256 maxUsdcAmount,
         uint256 slope
     ) internal {
-        // bytes32 usdsToUsdcKey = RateLimitHelpers.makeAssetKey(
-        //     LIMIT_USDS_TO_USDC,
-        //     MORPHO
-        // );
-
         bytes32 usdsToUsdcKey = LIMIT_USDS_TO_USDC;
 
         IRateLimits(rateLimits).setRateLimitData(usdsToUsdcKey, maxUsdcAmount, slope);

@@ -18,6 +18,18 @@ contract ObexEthereum_20251113 is ObexPayloadEthereum {
     address public constant SYRUP_USDC_VAULT  = 0x80ac24aA929eaF5013f6436cdA2a7ba190f5Cc0b;
     address public constant OZONE_OEA_RELAYER = 0x2b1D60B11B7015fB83361a219BE01B7564436054;
 
+    uint256 internal constant INITIAL_USDS_MINT_MAX   = 250_000_000e18;
+    uint256 internal constant INITIAL_USDS_MINT_SLOPE = 50_000_000e18 / uint256(1 days);
+
+    uint256 internal constant INITIAL_USDS_TO_USDC_MAX   = 250_000_000e6;
+    uint256 internal constant INITIAL_USDS_TO_USDC_SLOPE = 50_000_000e6 / uint256(1 days);
+
+    uint256 internal constant INITIAL_SYRUP_USDC_DEPOSIT_MAX   = 250_000_000e6;
+    uint256 internal constant INITIAL_SYRUP_USDC_DEPOSIT_SLOPE = 50_000_000e6 / uint256(1 days);
+
+    uint256 internal constant INITIAL_SYRUP_USDC_REDEEM_MAX = type(uint256).max;
+
+
     function _execute() internal override {
         _initiateAlmSystem();
         _setupBasicRateLimits();
@@ -62,20 +74,20 @@ contract ObexEthereum_20251113 is ObexPayloadEthereum {
 
     function _setupBasicRateLimits() private {
         _setUSDSMintRateLimit(
-            250_000_000e18,
-            50_000_000e18 / uint256(1 days)
+            INITIAL_USDS_MINT_MAX,
+            INITIAL_USDS_MINT_SLOPE
         );
         _setUSDSToUSDCRateLimit(
-            250_000_000e6,
-            50_000_000e6 / uint256(1 days)
+            INITIAL_USDS_TO_USDC_MAX,
+            INITIAL_USDS_TO_USDC_SLOPE
         );
     }
     function _onboardSyrupUSDC() private {
          _onboardSyrupUSDC({
             syrupUSDCVault: SYRUP_USDC_VAULT,
-            depositMax:     250_000_000e6,
-            depositSlope:   50_000_000e6 / uint256(1 days),
-            redeemMax:      type(uint256).max,
+            depositMax:     INITIAL_SYRUP_USDC_DEPOSIT_MAX,
+            depositSlope:   INITIAL_SYRUP_USDC_DEPOSIT_SLOPE,
+            redeemMax:      INITIAL_SYRUP_USDC_REDEEM_MAX,
             redeemSlope:    0 
          });
     }

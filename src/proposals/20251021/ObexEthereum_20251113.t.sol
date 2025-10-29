@@ -300,10 +300,15 @@ contract ObexEthereum_20251113Test is ObexTestBase {
         controller.mintUSDS(100_000_000e18);
         controller.swapUSDSToUSDC(100_000_000e6);
         controller.depositERC4626(OBEX_SPELL.SYRUP_USDC_VAULT(), 100_000_000e6);
-        vm.stopPrank();
+
 
         // Verify the allocation worked
         assertGt(IERC20(OBEX_SPELL.SYRUP_USDC_VAULT()).balanceOf(Ethereum.ALM_PROXY), 0, "should have SyrupUSDC shares");
+        vm.warp(block.timestamp + 2 days);
+        controller.mintUSDS(100_000_000e18);
+        controller.swapUSDSToUSDC(100_000_000e6);
+        controller.depositERC4626(OBEX_SPELL.SYRUP_USDC_VAULT(), 100_000_000e6);
+        vm.stopPrank();
     }
 
     // function test_centrifugeVaultOnboarding() public {
