@@ -3,9 +3,7 @@ pragma solidity ^0.8.0;
 
 import { Ethereum }  from "lib/obex-address-registry/src/Ethereum.sol";
 
-import { IExecutor } from "lib/grove-gov-relay/src/interfaces/IExecutor.sol";
-
-import { CCTPForwarder } from "xchain-helpers/forwarders/CCTPForwarder.sol";
+import { IExecutor } from "lib/obex-gov-relay/src/interfaces/IExecutor.sol";
 
 import { ObexLiquidityLayerHelpers } from "./ObexLiquidityLayerHelpers.sol";
 

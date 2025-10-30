@@ -12,7 +12,7 @@ import { Ethereum }  from 'obex-address-registry/Ethereum.sol';
 // import { Optimism } from 'grove-address-registry/Optimism.sol';
 // import { Unichain } from 'grove-address-registry/Unichain.sol';
 
-import { IExecutor } from 'lib/grove-gov-relay/src/interfaces/IExecutor.sol';
+import { IExecutor } from 'lib/obex-gov-relay/src/interfaces/IExecutor.sol';
 
 import { Domain, DomainHelpers } from "xchain-helpers/testing/Domain.sol";
 import { OptimismBridgeTesting } from "xchain-helpers/testing/bridges/OptimismBridgeTesting.sol";

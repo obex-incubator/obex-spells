@@ -5,7 +5,7 @@ import { IERC20 } from "forge-std/interfaces/IERC20.sol";
 
 import { Ethereum } from "lib/obex-address-registry/src/Ethereum.sol";
 
-import { Executor } from "grove-gov-relay/src/Executor.sol";
+import { Executor } from "obex-gov-relay/src/Executor.sol";
 
 import { IALMProxy }   from "obex-alm-controller/src/interfaces/IALMProxy.sol";
 import { IRateLimits } from "obex-alm-controller/src/interfaces/IRateLimits.sol";
