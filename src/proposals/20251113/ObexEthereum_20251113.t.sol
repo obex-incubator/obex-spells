@@ -16,8 +16,6 @@ import { IRateLimits } from "obex-alm-controller/src/interfaces/IRateLimits.sol"
 
 import { AllocatorVault }  from 'dss-allocator/src/AllocatorVault.sol';
 
-import { ObexLiquidityLayerContext } from "../../test-harness/ObexLiquidityLayerTests.sol";
-
 import { ObexEthereum_20251113 as ObexSpell } from "./ObexEthereum_20251113.sol";
 
 interface IInvestmentManager {
