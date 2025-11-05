@@ -6,7 +6,7 @@ import { RateLimitHelpers } from "obex-alm-controller/src/RateLimitHelpers.sol";
 import { IRateLimits } from "obex-alm-controller/src/interfaces/IRateLimits.sol";
 
 /**
- * @notice Helper functions for Grove Liquidity Layer
+ * @notice Helper functions for Obex Liquidity Layer
  */
 library ObexLiquidityLayerHelpers {
 
@@ -35,9 +35,7 @@ library ObexLiquidityLayerHelpers {
             LIMIT_4626_WITHDRAW,
             vault
         );
-
         IRateLimits(rateLimits).setRateLimitData(depositKey, depositMax, depositSlope);
-
         IRateLimits(rateLimits).setUnlimitedRateLimitData(withdrawKey);
     }
 
@@ -45,7 +43,7 @@ library ObexLiquidityLayerHelpers {
      * @notice Onboard the SyrupUSDC vault
      * @dev This will set the deposit and redeem limits to the given numbers.
      */
-    function onboardSyrupUSDC(address rateLimits,address syrupUSDCVault,uint256 depositMax,uint256 depositSlope,uint256 redeemMax,uint256 redeemSlope) internal {
+    function onboardSyrupUSDCVault(address rateLimits,address syrupUSDCVault,uint256 depositMax,uint256 depositSlope,uint256 redeemMax,uint256 redeemSlope) internal {
         bytes32 depositKey = RateLimitHelpers.makeAssetKey(
             LIMIT_4626_DEPOSIT,
             syrupUSDCVault
@@ -78,6 +76,5 @@ library ObexLiquidityLayerHelpers {
 
         IRateLimits(rateLimits).setRateLimitData(usdsToUsdcKey, maxUsdcAmount, slope);
     }
-
 
 }

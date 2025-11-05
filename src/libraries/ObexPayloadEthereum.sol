@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0
 pragma solidity ^0.8.0;
 
-import { Ethereum }  from "lib/obex-address-registry/src/Ethereum.sol";
+import { Ethereum } from "lib/obex-address-registry/src/Ethereum.sol";
 
 import { IExecutor } from "lib/obex-gov-relay/src/interfaces/IExecutor.sol";
 
@@ -13,7 +13,6 @@ import { ObexLiquidityLayerHelpers } from "./ObexLiquidityLayerHelpers.sol";
  * @author Forked from Steakhouse Financial
  */
 abstract contract ObexPayloadEthereum {
-
 
     function execute() external {
         _execute();
@@ -53,13 +52,13 @@ abstract contract ObexPayloadEthereum {
     }
 
 
-    function _onboardSyrupUSDC(
+    function _onboardSyrupUSDCVault(
         address syrupUSDCVault,
         uint256 depositMax,
         uint256 depositSlope,
         uint256 redeemMax,
         uint256 redeemSlope) internal {
-        ObexLiquidityLayerHelpers.onboardSyrupUSDC({
+        ObexLiquidityLayerHelpers.onboardSyrupUSDCVault({
             rateLimits:     Ethereum.ALM_RATE_LIMITS,
             syrupUSDCVault: syrupUSDCVault,
             depositMax:     depositMax,

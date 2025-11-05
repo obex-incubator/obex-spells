@@ -1,7 +1,9 @@
 // SPDX-License-Identifier: AGPL-3.0
-pragma solidity ^0.8.25;
+pragma solidity 0.8.25;
 
-import { Ethereum, ObexPayloadEthereum } from "src/libraries/ObexPayloadEthereum.sol";
+import { ObexPayloadEthereum } from "src/libraries/ObexPayloadEthereum.sol";
+
+import { Ethereum } from "lib/obex-address-registry/src/Ethereum.sol";
 
 import { MainnetControllerInit, ControllerInstance } from "lib/obex-alm-controller/deploy/MainnetControllerInit.sol";
 
@@ -34,13 +36,10 @@ contract ObexEthereum_20251113 is ObexPayloadEthereum {
     function _execute() internal override {
         _initiateAlmSystem();
         _setupBasicRateLimits();
-        _onboardSyrupUSDC();
+        _onboardSyrupUSDCVault();
     }
 
     function _initiateAlmSystem() private {
-        MainnetControllerInit.MintRecipient[] memory mintRecipients = new MainnetControllerInit.MintRecipient[](0);
-        MainnetControllerInit.LayerZeroRecipient[] memory layerZeroRecipients = new MainnetControllerInit.LayerZeroRecipient[](0);
-        MainnetControllerInit.CentrifugeRecipient[] memory centrifugeRecipients = new MainnetControllerInit.CentrifugeRecipient[](0);
         address[] memory relayers = new address[](2);
         relayers[0] = Ethereum.ALM_RELAYER;
         relayers[1] = OZONE_OEA_RELAYER;
@@ -67,9 +66,9 @@ contract ObexEthereum_20251113 is ObexPayloadEthereum {
                 daiUsds    : Ethereum.DAI_USDS,
                 cctp       : Ethereum.CCTP_TOKEN_MESSENGER
             }),
-            mintRecipients: mintRecipients,
-            layerZeroRecipients: layerZeroRecipients,
-            centrifugeRecipients: centrifugeRecipients
+            mintRecipients:       new MainnetControllerInit.MintRecipient[](0),
+            layerZeroRecipients:  new MainnetControllerInit.LayerZeroRecipient[](0),
+            centrifugeRecipients: new MainnetControllerInit.CentrifugeRecipient[](0)
         });
     }
 
@@ -83,8 +82,8 @@ contract ObexEthereum_20251113 is ObexPayloadEthereum {
             INITIAL_USDS_TO_USDC_SLOPE
         );
     }
-    function _onboardSyrupUSDC() private {
-         _onboardSyrupUSDC({
+    function _onboardSyrupUSDCVault() private {
+         _onboardSyrupUSDCVault({
             syrupUSDCVault: SYRUP_USDC_VAULT,
             depositMax:     INITIAL_SYRUP_USDC_DEPOSIT_MAX,
             depositSlope:   INITIAL_SYRUP_USDC_DEPOSIT_SLOPE,
