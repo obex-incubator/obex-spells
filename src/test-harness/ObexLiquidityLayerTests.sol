@@ -220,7 +220,7 @@ abstract contract ObexLiquidityLayerTests is SpellRunner {
     // function _testControllerUpgrade(address oldController, address newController) internal {
     //     ChainId currentChain = ChainIdUtils.fromUint(block.chainid);
 
-    //     GroveLiquidityLayerContext memory ctx = _getGroveLiquidityLayerContext();
+    //     ObexLiquidityLayerContext memory ctx = _getObexLiquidityLayerContext();
 
     //     // Note the functions used are interchangable with mainnet and foreign controllers
     //     MainnetController controller = MainnetController(newController);
@@ -245,9 +245,9 @@ abstract contract ObexLiquidityLayerTests is SpellRunner {
     //     }
 
     //     if (currentChain == ChainIdUtils.Ethereum()) {
-    //         assertEq(controller.centrifugeRecipients(GroveLiquidityLayerHelpers.AVALANCHE_DESTINATION_CENTRIFUGE_ID), bytes32(uint256(uint160(address(0)))));
+    //         assertEq(controller.centrifugeRecipients(ObexLiquidityLayerHelpers.AVALANCHE_DESTINATION_CENTRIFUGE_ID), bytes32(uint256(uint160(address(0)))));
     //     } else {
-    //         assertEq(controller.centrifugeRecipients(GroveLiquidityLayerHelpers.ETHEREUM_DESTINATION_CENTRIFUGE_ID), bytes32(uint256(uint160(address(0)))));
+    //         assertEq(controller.centrifugeRecipients(ObexLiquidityLayerHelpers.ETHEREUM_DESTINATION_CENTRIFUGE_ID), bytes32(uint256(uint160(address(0)))));
     //     }
 
     //     executeAllPayloadsAndBridges();
@@ -268,9 +268,9 @@ abstract contract ObexLiquidityLayerTests is SpellRunner {
     //     }
 
     //     if (currentChain == ChainIdUtils.Ethereum()) {
-    //         assertEq(controller.centrifugeRecipients(GroveLiquidityLayerHelpers.AVALANCHE_DESTINATION_CENTRIFUGE_ID), bytes32(uint256(uint160(Avalanche.ALM_PROXY))));
+    //         assertEq(controller.centrifugeRecipients(ObexLiquidityLayerHelpers.AVALANCHE_DESTINATION_CENTRIFUGE_ID), bytes32(uint256(uint160(Avalanche.ALM_PROXY))));
     //     } else {
-    //         assertEq(controller.centrifugeRecipients(GroveLiquidityLayerHelpers.ETHEREUM_DESTINATION_CENTRIFUGE_ID), bytes32(uint256(uint160(Ethereum.ALM_PROXY))));
+    //         assertEq(controller.centrifugeRecipients(ObexLiquidityLayerHelpers.ETHEREUM_DESTINATION_CENTRIFUGE_ID), bytes32(uint256(uint160(Ethereum.ALM_PROXY))));
     //     }
     // }
 
