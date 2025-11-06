@@ -1,15 +1,6 @@
 [submodule "lib/forge-std"]
 	path = lib/forge-std
 	url = https://github.com/foundry-rs/forge-std
-[submodule "lib/grove-alm-controller"]
-	path = lib/grove-alm-controller
-	url = https://github.com/grove-labs/grove-alm-controller
-[submodule "lib/grove-address-registry"]
-	path = lib/grove-address-registry
-	url = https://github.com/grove-labs/grove-address-registry
-[submodule "lib/spark-address-registry"]
-	path = lib/spark-address-registry
-	url = https://github.com/sparkdotfi/spark-address-registry
 [submodule "lib/xchain-helpers"]
 	path = lib/xchain-helpers
 	url = https://github.com/sparkdotfi/xchain-helpers
