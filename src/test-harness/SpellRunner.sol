@@ -6,11 +6,11 @@ import { StdChains } from "forge-std/StdChains.sol";
 import { console }   from "forge-std/console.sol";
 
 import { Ethereum }  from 'obex-address-registry/Ethereum.sol';
-// import { Arbitrum } from 'grove-address-registry/Arbitrum.sol';
-// import { Base }     from 'grove-address-registry/Base.sol';
-// import { Gnosis }   from 'grove-address-registry/Gnosis.sol';
-// import { Optimism } from 'grove-address-registry/Optimism.sol';
-// import { Unichain } from 'grove-address-registry/Unichain.sol';
+// import { Arbitrum } from 'obex-address-registry/Arbitrum.sol';
+// import { Base }     from 'obex-address-registry/Base.sol';
+// import { Gnosis }   from 'obex-address-registry/Gnosis.sol';
+// import { Optimism } from 'obex-address-registry/Optimism.sol';
+// import { Unichain } from 'obex-address-registry/Unichain.sol';
 
 import { IExecutor } from 'lib/obex-gov-relay/src/interfaces/IExecutor.sol';
 
@@ -173,11 +173,11 @@ abstract contract SpellRunner is Test {
         // chainData[ChainIdUtils.Avalanche()].prevController = Avalanche.ALM_CONTROLLER;
         // chainData[ChainIdUtils.Avalanche()].newController  = Avalanche.ALM_CONTROLLER;
 
-        // chainData[ChainIdUtils.Base()].executor        = IExecutor(Base.GROVE_EXECUTOR);
-        // chainData[ChainIdUtils.Gnosis()].executor      = IExecutor(Gnosis.GROVE_EXECUTOR);
-        // chainData[ChainIdUtils.ArbitrumOne()].executor = IExecutor(Arbitrum.GROVE_EXECUTOR);
-        // chainData[ChainIdUtils.Optimism()].executor    = IExecutor(Optimism.GROVE_EXECUTOR);
-        // chainData[ChainIdUtils.Unichain()].executor    = IExecutor(Unichain.GROVE_EXECUTOR);
+        // chainData[ChainIdUtils.Base()].executor        = IExecutor(Base.OBEX_EXECUTOR);
+        // chainData[ChainIdUtils.Gnosis()].executor      = IExecutor(Gnosis.OBEX_EXECUTOR);
+        // chainData[ChainIdUtils.ArbitrumOne()].executor = IExecutor(Arbitrum.OBEX_EXECUTOR);
+        // chainData[ChainIdUtils.Optimism()].executor    = IExecutor(Optimism.OBEX_EXECUTOR);
+        // chainData[ChainIdUtils.Unichain()].executor    = IExecutor(Unichain.OBEX_EXECUTOR);
 
         // CREATE BRIDGES HERE
 
