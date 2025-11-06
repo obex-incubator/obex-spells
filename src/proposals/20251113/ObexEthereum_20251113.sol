@@ -7,8 +7,6 @@ import { Ethereum } from "lib/obex-address-registry/src/Ethereum.sol";
 
 import { MainnetControllerInit, ControllerInstance } from "lib/obex-alm-controller/deploy/MainnetControllerInit.sol";
 
-import { MainnetController } from "lib/obex-alm-controller/src/MainnetController.sol";
-
 /**
  * @title    November 13, 2025 Obex Ethereum Proposal
  * @notice Activate Obex Liquidity Layer - initiate ALM system, set rate limits, onboard SyrupUSDC
