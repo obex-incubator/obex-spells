@@ -67,7 +67,12 @@ interface IPSMLike {
 interface IPoolManagerLike {
     function updateTranchePrice(uint64 poolId, bytes16 trancheId, uint128 assetId, uint128 price, uint64 computedAt) external;
     function manager() external view returns (address);
+    function poolDelegate() external view returns (address);
     function withdrawalManager() external view returns (address);
+}
+
+interface IWithdrawalManagerLike {
+    function processRedemptions(uint256 maxSharesToProcess) external;
 }
 
 interface IPermissionManagerLike {
@@ -370,6 +375,17 @@ contract ObexEthereum_20251113Test is ObexTestBase {
         assertEq(IERC20(OBEX_SPELL.SYRUP_USDC_VAULT()).balanceOf(Ethereum.ALM_PROXY), 0, "should have no SyrupUSDC shares");
         assertEq(IERC20(OBEX_SPELL.SYRUP_USDC_VAULT()).balanceOf(IPoolManagerLike(manager).withdrawalManager()), withdrawalManagerSharesBefore + shares, "should have SyrupUSDC shares in withdrawal manager");
         vm.stopPrank();
+        
+        address USDC = Ethereum.USDC;
+        uint256 proxyBalanceBefore = IERC20(USDC).balanceOf(Ethereum.ALM_PROXY);
+        //prank as the withdrawal manager to process the redemptions
+        IWithdrawalManagerLike withdrawalManager = IWithdrawalManagerLike(IPoolManagerLike(manager).withdrawalManager());
+        vm.startPrank(address(poolDelegate));
+        withdrawalManager.processRedemptions(shares);
+        vm.stopPrank();
+
+        uint256 proxyBalanceAfter = IERC20(USDC).balanceOf(Ethereum.ALM_PROXY);
+        assertEq(proxyBalanceAfter, proxyBalanceBefore + 100_000_000 * 1e6 - 1, "should have USDC in proxy");
     }
 
     // function test_centrifugeVaultOnboarding() public {
