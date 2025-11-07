@@ -227,7 +227,10 @@ contract ObexEthereum_20251113Test is ObexTestBase {
         });
 
         _assertRateLimit({
-            key: controller.LIMIT_MAPLE_REDEEM(), 
+            key: RateLimitHelpers.makeAssetKey(
+                controller.LIMIT_MAPLE_REDEEM(),
+                OBEX_SPELL.SYRUP_USDC_VAULT()
+            ), 
             maxAmount: 0,
             slope: 0,
             message: "before execution: incorrect-syrup-usdc-redeem-rate-limit"
@@ -246,7 +249,10 @@ contract ObexEthereum_20251113Test is ObexTestBase {
         });
 
         _assertRateLimit({
-            key: controller.LIMIT_MAPLE_REDEEM(),
+            key: RateLimitHelpers.makeAssetKey(
+                controller.LIMIT_MAPLE_REDEEM(),
+                OBEX_SPELL.SYRUP_USDC_VAULT()
+            ),
             maxAmount: type(uint256).max,
             slope: 0,
             message: "after execution: incorrect-syrup-usdc-redeem-rate-limit"
