@@ -48,7 +48,7 @@ library ObexLiquidityLayerHelpers {
             LIMIT_4626_DEPOSIT,
             syrupUSDCVault
         );
-        bytes32 withdrawKey = LIMIT_MAPLE_REDEEM;
+        bytes32 withdrawKey = RateLimitHelpers.makeAssetKey(LIMIT_MAPLE_REDEEM, syrupUSDCVault);
         IRateLimits(rateLimits).setRateLimitData(depositKey, depositMax, depositSlope);
         IRateLimits(rateLimits).setRateLimitData(withdrawKey, redeemMax, redeemSlope);
     }

@@ -309,6 +309,55 @@ contract ObexEthereum_20251113Test is ObexTestBase {
         vm.stopPrank();
     }
 
+    function test_redeemSyrupUSDC() public {
+        IVatLike vat = IVatLike(Ethereum.VAT);
+        IPermissionManagerLike permissionManager = IPermissionManagerLike(0xBe10aDcE8B6E3E02Db384E7FaDA5395DD113D8b3);
+
+        // Increase the debt ceiling to allow minting
+        vm.prank(Ethereum.PAUSE_PROXY);
+        AutoLineLike(MCD_IAM_AUTO_LINE).setIlk({
+            ilk:  ALLOCATOR_ILK,
+            line: 2_500_000_000 * RAD,  // 2.5B total line
+            gap:  250_000_000 * RAD,     // 250M gap
+            ttl:  1 days
+        });
+
+        executeMainnetPayload();
+
+        // Whitelist ALM_PROXY with Maple permission manager
+        address poolManager = IPoolManagerLike(OBEX_SPELL.SYRUP_USDC_VAULT()).manager();
+        address poolDelegate = IMaplePoolManagerLike(poolManager).poolDelegate();
+        
+        address[] memory lenders  = new address[](1);
+        bool[]    memory booleans = new bool[](1);
+        lenders[0]  = Ethereum.ALM_PROXY;
+        booleans[0] = true;
+
+        // Use pool delegate instead of admin (permissions changed after Jan 2025)
+        vm.prank(poolDelegate);
+        permissionManager.setLenderAllowlist(
+            poolManager,
+            lenders,
+            booleans
+        );
+
+        // Execute auto-line to increase ceiling
+        AutoLineLike(MCD_IAM_AUTO_LINE).exec(ALLOCATOR_ILK);
+
+        ( uint256 Art,,, uint256 line, ) = vat.ilks(ALLOCATOR_ILK);
+        assertEq(Art,  0);
+        assertEq(line, 250_000_000 * RAD);  // Should now be 250M
+
+        vm.warp(block.timestamp + 10 days);
+
+        vm.startPrank(Ethereum.ALM_RELAYER);
+        controller.mintUSDS(100_000_000e18);
+        controller.swapUSDSToUSDC(100_000_000e6);
+        uint256 shares = controller.depositERC4626(OBEX_SPELL.SYRUP_USDC_VAULT(), 100_000_000e6);
+        controller.requestMapleRedemption(OBEX_SPELL.SYRUP_USDC_VAULT(), shares);
+        vm.stopPrank();
+    }
+
     // function test_centrifugeVaultOnboarding() public {
     //     _testCentrifugeOnboarding(
     //         CENTRIFUGE_VAULT,
