@@ -12,7 +12,7 @@ import { MainnetControllerInit, ControllerInstance } from "lib/obex-alm-controll
  * @notice Activate Obex Liquidity Layer - initiate ALM system, set rate limits, onboard SyrupUSDC
  * @author Obex Labs
  * Forum Post: https://forum.sky.money/t/proposed-changes-to-launch-agent-4-obex-for-upcoming-spell/27370
- * Vote Link:  TODO: Update with vote link
+ * Vote Link:  https://vote.sky.money/executive/template-executive-vote-allocator-4-technical-launch-monthly-settlement-cycle-for-september-2025-ranked-delegate-compensation-atlas-core-development-compensation-execute-prime-agent-proxy-spells-october-16-2025
  */
 contract ObexEthereum_20251113 is ObexPayloadEthereum {
 
