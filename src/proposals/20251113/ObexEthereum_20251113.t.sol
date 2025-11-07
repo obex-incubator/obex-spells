@@ -67,6 +67,7 @@ interface IPSMLike {
 interface IPoolManagerLike {
     function updateTranchePrice(uint64 poolId, bytes16 trancheId, uint128 assetId, uint128 price, uint64 computedAt) external;
     function manager() external view returns (address);
+    function withdrawalManager() external view returns (address);
 }
 
 interface IPermissionManagerLike {
@@ -360,7 +361,14 @@ contract ObexEthereum_20251113Test is ObexTestBase {
         controller.mintUSDS(100_000_000e18);
         controller.swapUSDSToUSDC(100_000_000e6);
         uint256 shares = controller.depositERC4626(OBEX_SPELL.SYRUP_USDC_VAULT(), 100_000_000e6);
+        assertGt(shares, 0, "should have SyrupUSDC shares");
+
+        address manager = IPoolManagerLike(OBEX_SPELL.SYRUP_USDC_VAULT()).manager();
+        uint256 withdrawalManagerSharesBefore = IERC20(OBEX_SPELL.SYRUP_USDC_VAULT()).balanceOf(IPoolManagerLike(manager).withdrawalManager());
+
         controller.requestMapleRedemption(OBEX_SPELL.SYRUP_USDC_VAULT(), shares);
+        assertEq(IERC20(OBEX_SPELL.SYRUP_USDC_VAULT()).balanceOf(Ethereum.ALM_PROXY), 0, "should have no SyrupUSDC shares");
+        assertEq(IERC20(OBEX_SPELL.SYRUP_USDC_VAULT()).balanceOf(IPoolManagerLike(manager).withdrawalManager()), withdrawalManagerSharesBefore + shares, "should have SyrupUSDC shares in withdrawal manager");
         vm.stopPrank();
     }
 
