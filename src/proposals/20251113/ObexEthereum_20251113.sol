@@ -16,7 +16,9 @@ import { MainnetControllerInit, ControllerInstance } from "lib/obex-alm-controll
  */
 contract ObexEthereum_20251113 is ObexPayloadEthereum {
 
-    address public constant SYRUP_USDC_VAULT  = 0x80ac24aA929eaF5013f6436cdA2a7ba190f5Cc0b;
+    address public constant SYRUP_USDC_VAULT = 0x80ac24aA929eaF5013f6436cdA2a7ba190f5Cc0b;
+
+    /// @notice Ozone OEA Relayer Atlas Link: https://sky-atlas.io/#A.6.1.1.5.2.6.2.2.1.2.2.2
     address public constant OZONE_OEA_RELAYER = 0x2b1D60B11B7015fB83361a219BE01B7564436054;
 
     uint256 internal constant INITIAL_USDS_MINT_MAX   = 100_000_000e18;
@@ -80,6 +82,7 @@ contract ObexEthereum_20251113 is ObexPayloadEthereum {
             INITIAL_USDS_TO_USDC_SLOPE
         );
     }
+
     function _onboardSyrupUSDCVault() private {
          _onboardSyrupUSDCVault({
             syrupUSDCVault: SYRUP_USDC_VAULT,
@@ -89,5 +92,4 @@ contract ObexEthereum_20251113 is ObexPayloadEthereum {
             redeemSlope:    0 
          });
     }
-
 }
