@@ -362,8 +362,8 @@ abstract contract SpellRunner is Test {
         // RETURN PAYLOAD ADDRESSES FROM THE MAINNET SPELL HERE
 
         ObexPayloadEthereum spell = ObexPayloadEthereum(chainData[ChainIdUtils.Ethereum()].payload);
-        if (chainId == ChainIdUtils.Avalanche()) {
-            revert("Unsupported chainId");
+        // if (chainId == ChainIdUtils.Avalanche()) {
+        //     revert("Unsupported chainId");
             // return spell.PAYLOAD_AVALANCHE();
         // } else if (chainId == ChainIdUtils.Base()) {
         //     return spell.PAYLOAD_BASE();
@@ -375,9 +375,9 @@ abstract contract SpellRunner is Test {
         //     return spell.PAYLOAD_OPTIMISM();
         // } else if (chainId == ChainIdUtils.Unichain()) {
         //     return spell.PAYLOAD_UNICHAIN();
-        } else {
-            revert("Unsupported chainId");
-        }
+        // } else {
+        //     revert("Unsupported chainId");
+        // }
     }
 
     function executeMainnetPayload() internal onChain(ChainIdUtils.Ethereum()) {
