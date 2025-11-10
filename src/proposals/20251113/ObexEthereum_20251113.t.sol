@@ -221,7 +221,7 @@ contract ObexEthereum_20251113Test is ObexTestBase {
         });
     }
 
-    function test_syrupUSDCOnboarding() public {
+    function test_SyrupUSDCRateLimitSetup() public {
         _assertRateLimit({
             key: RateLimitHelpers.makeAssetKey(
                 controller.LIMIT_4626_DEPOSIT(),
