@@ -101,7 +101,7 @@ interface AutoLineLike {
 
 contract ObexEthereum_20251113Test is ObexTestBase {
 
-    ObexSpell internal OBEX_SPELL;
+    ObexSpell internal OBEX_SPELL = ObexSpell(0xF538909eDF14d2c23002C2b3882Ad60f79d61893);
     address internal DEPLOYER;
 
     address internal constant MCD_IAM_AUTO_LINE = 0xC7Bdd1F2B16447dcf3dE045C4a039A60EC2f0ba3;
@@ -122,14 +122,14 @@ contract ObexEthereum_20251113Test is ObexTestBase {
     }
 
     function _setupAddresses() internal virtual {
-        DEPLOYER = makeAddr("DEPLOYER");
-        vm.prank(DEPLOYER);
-        OBEX_SPELL = new ObexSpell();
+        // DEPLOYER = makeAddr("DEPLOYER");
+        // vm.prank(DEPLOYER);
+        // OBEX_SPELL = new ObexSpell();
     }
 
     function setUp() public {
-        // October 21, 2025
-        setupMainnetDomain({ mainnetForkBlock: 23628294 });
+        // November 10, 2025
+        setupMainnetDomain({ mainnetForkBlock: 23770489 });
         _setupAddresses();
 
         vm.startPrank(Ethereum.PAUSE_PROXY);
