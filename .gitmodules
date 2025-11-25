@@ -1,21 +1,18 @@
 [submodule "lib/forge-std"]
 	path = lib/forge-std
 	url = https://github.com/foundry-rs/forge-std
-[submodule "lib/grove-alm-controller"]
-	path = lib/grove-alm-controller
-	url = https://github.com/grove-labs/grove-alm-controller
-[submodule "lib/grove-address-registry"]
-	path = lib/grove-address-registry
-	url = https://github.com/grove-labs/grove-address-registry
-[submodule "lib/spark-address-registry"]
-	path = lib/spark-address-registry
-	url = https://github.com/sparkdotfi/spark-address-registry
 [submodule "lib/xchain-helpers"]
 	path = lib/xchain-helpers
 	url = https://github.com/sparkdotfi/xchain-helpers
 [submodule "lib/dss-allocator"]
 	path = lib/dss-allocator
 	url = https://github.com/makerdao/dss-allocator
-[submodule "lib/grove-gov-relay"]
-	path = lib/grove-gov-relay
-	url = https://github.com/grove-labs/grove-gov-relay
+[submodule "lib/obex-address-registry"]
+	path = lib/obex-address-registry
+	url = https://github.com/obex-incubator/obex-address-registry
+[submodule "lib/obex-alm-controller"]
+	path = lib/obex-alm-controller
+	url = https://github.com/obex-incubator/obex-alm-controller
+[submodule "lib/obex-gov-relay"]
+	path = lib/obex-gov-relay
+	url = https://github.com/obex-incubator/obex-gov-relay
